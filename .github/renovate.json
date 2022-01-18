@@ -1,0 +1,16 @@
+{
+  "extends": [ "config:base" ],
+  "dependencyDashboard": true,
+  "labels": [ "dependencies" ],
+  "packageRules": [
+    {
+      "matchManagers": ["bundler"],
+      "rangeStrategy": "update-lockfile"
+    },
+    {
+      "matchManagers": ["gradle"],
+      "matchPackageNames": ["com.google.guava:guava"],
+      "allowedVersions": "!/-jre$/"
+    }
+  ]
+}

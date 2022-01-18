@@ -1,0 +1,31 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+  reviewers:
+  - frett
+  assignees:
+  - frett
+  ignore:
+  - dependency-name: org.jetbrains.kotlinx:kotlinx-coroutines-*
+    versions:
+    # Don't use the native multithread version of coroutines
+    - "1.5.0-native-mt"
+  - dependency-name: io.github.yavski:fab-speed-dial
+    versions:
+    # 1.0.7 does not work due to an invalid fix for https://github.com/yavski/fab-speed-dial/issues/34
+    - 1.0.7
+  - dependency-name: com.squareup.picasso:picasso
+    versions:
+    # 2.8 is newer, but this is seen as a higher version
+    - "= 2.71828"
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+  reviewers:
+  - frett
+  assignees:
+  - frett

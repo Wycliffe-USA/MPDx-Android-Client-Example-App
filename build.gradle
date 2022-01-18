@@ -1,0 +1,200 @@
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
+buildscript {
+    ext {
+        deps = [
+                advrecyclerview    : '1.0.0',
+                butterknife        : '10.2.3',
+                facebookSoloader   : '0.10.3',
+                flipperRealm       : '2.1.0',
+                gtoSupport         : libs.versions.gtoSupport.get(),
+                guava              : '31.0.1-android',
+                hamcrest           : '2.2',
+                jacoco             : '0.8.7',
+                junit              : '4.13.2',
+                mpChart            : '3.1.0',
+                mpdxLib            : '2.11.7',
+                picasso            : '2.8',
+                picassoTransforms  : '2.4.0',
+                realmAdapters      : '4.0.0',
+                realmFieldNames    : '2.0.0',
+                retrofit           : '2.9.0',
+                splitties          : '3.0.0',
+                timber             : '5.0.1',
+        ]
+        deps.androidX = [
+                activity          : '1.4.0',
+                biometric         : '1.1.0',
+                cardView          : '1.0.0',
+                core              : '1.7.0',
+                multidex          : '2.0.1',
+                swipeRefreshLayout: '1.1.0',
+                test              : '1.4.0',
+                testJUnit         : '1.1.3',
+        ]
+        deps.firebase = [
+                appdistribution: '2.2.0',
+                id             : '21.1.0',
+                messaging      : '23.0.0',
+        ]
+    }
+
+    repositories {
+        maven {
+            url 'https://jitpack.io'
+            content { includeGroupByRegex 'com\\.github\\..*' }
+        }
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath libs.android.gradlePlugin
+        classpath libs.hilt.gradle.plugin
+        classpath 'com.google.firebase:perf-plugin:1.4.0'
+        classpath "com.google.firebase:firebase-appdistribution-gradle:${deps.firebase.appdistribution}"
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1'
+        classpath 'com.google.gms:google-services:4.3.10'
+        classpath libs.realm.gradlePlugin
+        classpath "com.jakewharton:butterknife-gradle-plugin:${deps.butterknife}"
+    }
+}
+
+plugins {
+    id "com.vanniktech.android.junit.jacoco" version "0.16.0"
+    id "org.ajoberstar.grgit" version "4.1.1" apply false
+    alias libs.plugins.kotlin apply false
+    id "org.jlleitschuh.gradle.ktlint" version "10.2.1"
+}
+
+allprojects {
+    repositories {
+        maven {
+            url 'https://jitpack.io'
+            content { includeGroupByRegex 'com\\.github\\..*' }
+        }
+        maven {
+            url 'https://cruglobal.jfrog.io/cruglobal/list/maven-locals/'
+            content {
+                includeGroup 'org.ccci.gto.android'
+                includeGroup 'org.ccci.gto.android.testing'
+                includeGroup 'org.cru.mpdx.android'
+            }
+        }
+        google()
+        mavenCentral()
+        jcenter {
+            content {
+                includeModule("com.ochim", "recyclertablayout-androidx")
+                includeModule("dk.ilios", "realmfieldnameshelper")
+                includeModule("io.realm", "android-adapters")
+            }
+        }
+    }
+
+    version '2.11.8'
+
+    // increase number of javac logged errors so that dagger errors are always logged
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xmaxerrs" << "9999"
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            // HACK: force the correct version of lifecycle-viewmodel-ktx to address a transitive version conflict
+            force "androidx.lifecycle:lifecycle-viewmodel-ktx:${libs.versions.androidx.lifecycle.get()}"
+            force libs.okhttp3
+        }
+    }
+}
+
+// configure checkstyle
+subprojects {
+    apply plugin: 'checkstyle'
+    checkstyle {
+        toolVersion '8.0'
+    }
+
+    task checkstyle(type: Checkstyle) {
+        source 'src'
+        include '**/*.java', '**/*.xml'
+        exclude '**/gen/**'
+        classpath = files()
+    }
+    afterEvaluate {
+        project.tasks.findByName("check")?.dependsOn('checkstyle')
+    }
+}
+
+// jacoco config
+junitJacoco {
+    jacocoVersion = deps.jacoco
+    includeNoLocationClasses = true
+}
+task jacocoTestReport {
+    subprojects.each { dependsOn(it.tasks.withType(JacocoReport)) }
+}
+allprojects {
+    if (gradle.startParameter.excludedTaskNames.contains("test")) {
+        // exclude all test type tasks when the test task is excluded
+        tasks.withType(Test).all { gradle.startParameter.excludedTaskNames += it.name }
+    }
+    afterEvaluate {
+        tasks.withType(Test) {
+            jacoco.excludes = ['jdk.internal.*']
+        }
+    }
+}
+
+// configure ktlint
+subprojects {
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
+
+    ktlint {
+        version = libs.versions.ktlint
+        android = true
+        reporters {
+            reporter(ReporterType.PLAIN_GROUP_BY_FILE)
+            reporter(ReporterType.CHECKSTYLE)
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+// Accept the buildScan TOS if we indicate we want to publish a build scan
+if (extensions.findByName("buildScan") != null) {
+    buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+    }
+}
+
+// Enforce that there are no snapshot dependencies in the project
+// logic copied and modified from: researchgate gradle-release plugin (id: net.researchgate.release)
+// see: https://github.com/researchgate/gradle-release/blob/master/src/main/groovy/net/researchgate/release/ReleasePlugin.groovy#L197-L214
+task enforceNoSnapshotDependencies {
+    def matcher = { Dependency d -> d.version?.contains('SNAPSHOT') }
+    def collector = { Dependency d -> "${d.group ?: ''}:${d.name}:${d.version ?: ''}" }
+
+    doLast {
+        def message = ""
+        allprojects.each { project ->
+            def snapshotDependencies = [] as Set
+            project.configurations.each { cfg ->
+                snapshotDependencies += cfg.dependencies?.matching(matcher)?.collect(collector)
+            }
+            project.buildscript.configurations.each { cfg ->
+                snapshotDependencies += cfg.dependencies?.matching(matcher)?.collect(collector)
+            }
+            if (snapshotDependencies.size() > 0) {
+                message += "\n\t${project.name}: ${snapshotDependencies}"
+            }
+        }
+
+        if (message) throw new GradleException("Snapshot dependencies detected: ${message}")
+    }
+}

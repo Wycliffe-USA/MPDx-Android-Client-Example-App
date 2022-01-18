@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+
+    <issue id="LogNotTimber" severity="error"/>
+
+    <issue id="InvalidPackage">
+        <ignore regexp=".*okio.*"/>
+        <ignore regexp=".*retrofit.*"/>
+        <ignore regexp=".*pkix.*"/>
+    </issue>
+
+    <issue id="NewApi">
+        <ignore regexp="ViewBinding"/>
+    </issue>
+
+    <!-- make MissingTranslation a warning to prevent new strings from breaking builds before they can be translated -->
+    <issue id="MissingTranslation" severity="warning"/>
+
+    <!-- This has been happening when Jenkins builds this app on -->
+    <issue id="LintError" severity="warning"/>
+
+</lint>
