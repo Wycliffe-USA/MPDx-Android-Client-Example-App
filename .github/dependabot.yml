@@ -4,6 +4,12 @@ updates:
   directory: "/"
   schedule:
     interval: daily
+  reviewers:
+    - frett
+    - gyasistory
+  assignees:
+    - frett
+    - gyasistory
   ignore:
   - dependency-name: org.jetbrains.kotlinx:kotlinx-coroutines-*
     versions:
