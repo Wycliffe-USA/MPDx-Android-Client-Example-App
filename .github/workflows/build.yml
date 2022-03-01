@@ -32,7 +32,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Run Static Analysis
-        run: ./gradlew assemble check -x test --continue --stacktrace --parallel
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: assemble check -x test --continue --stacktrace --parallel
       - name: Archive ktlint results
         if: always()
         uses: actions/upload-artifact@v2
@@ -69,13 +71,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Run Unit Tests
-        run: ./gradlew test jacocoTestReport --continue --stacktrace --parallel
-      - name: Codecov
-        uses: codecov/codecov-action@v2
+        uses: gradle/gradle-build-action@v2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
-          verbose: true
+          arguments: test jacocoTestReport
       - name: Archive Unit Test results
         if: always()
         uses: actions/upload-artifact@v2

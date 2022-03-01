@@ -1,34 +1,45 @@
-# mpdx-android
-MPDx Android app - POSSIBLE Mobile version
+# Client Example fo MPDx Implementation
 
-## Running Checks
+This Repository is to give an example on how to implement the MPDx Android Libraries for your application
 
-For running the quick checks, PMD and Checkstyle, execute the following from the root directory of the repo:
+## Gradle Implementation
+### Project Gradle
+Add our library from maven to project Gradle
+```groovy
+repositories {
+      maven {
+          url 'https://cruglobal.jfrog.io/cruglobal/list/maven-locals/'
+          content {
+              includeGroup 'org.ccci.gto.android'
+              includeGroup 'org.ccci.gto.android.testing'
+              includeGroup 'org.cru.mpdx.android'
+          }
+      }
+  }
 ```
-./gradlew app:pmd app:checkstyle
+Add Dagger and Realm Dependencies
+```groovy
+dependencies {
+      classpath "io.realm:realm-gradle-plugin:10.9.0"
+      classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger"
+}
 ```
-To run the full gamut for checks, including lint, execute the following from the root directory of the repo:
-```
-./gradlew app:check
-```
-Note: Running all of the checks with app:check will take awhile to complete. This command will build all variants of the project, checking each one. It is recommended to let the build server run this task after opening a PR.
 
-## Architecture tenants
-### Data Layer
-* TODO
+### Application Gradle
+Add core library to application gradle
+```groovy
+implementation "org.cru.mpdx.android:library:${deps.mpdxLib}"
+    implementation "org.cru.mpdx.android:core:${deps.mpdxLib}"
+```
+Add appropriate Authentication library
+```groovy
+implementation "org.cru.mpdx.android:okta:${deps.mpdxLib}"
+```
+Your application will need to implement Dagger Hilt
+```groovy
+implementation "com.google.dagger:hilt-android:$dagger"
 
-### Presentation layer
-* ViewModels
-  * Name: CurrentTaskViewModel, ContactViewModel, etc.
-  * Exposes view logic from domain models that are passed in from Presenter
-  * Data Binding is used to bind a ViewModel to XML layout
-  * Any user interactions should be routed to the appropriate Presenter
-* Presenters
-  * Name: CurrentTaskPresenter, ContactPresenter, etc.
-  * Request and retreive data from Repository to pass onto ViewModel
-  * Handle any user interactions for navigation or state change
-* Note: We should never have any view logic in XML layouts in the form of DataBinding operators. Consider exposing a ViewModel method for this logic instead.
-  
-## Multidex
-This project utilizes multidexing that could slow down build times if your minSdk < 21. To speed things up you can put `customMinSdk=21` in `local.properties`. This file is not checked into VCS and won't be seen by Jenkins. If you use an API not supported before API 21 then your local build will be fine but Jenkins will fail.
-  
+kapt "com.google.dagger:dagger-compiler:$dagger"
+kapt "com.google.dagger:hilt-compiler:$dagger"
+```
+## Code Implementation
