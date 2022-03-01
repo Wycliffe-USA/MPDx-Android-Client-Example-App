@@ -61,7 +61,7 @@ buildscript {
 
 plugins {
     id "com.vanniktech.android.junit.jacoco" version "0.16.0"
-    id "org.ajoberstar.grgit" version "4.1.1" apply false
+    id "org.ajoberstar.grgit" version "5.0.0" apply false
     alias libs.plugins.kotlin apply false
     id "org.jlleitschuh.gradle.ktlint" version "10.2.1"
 }
