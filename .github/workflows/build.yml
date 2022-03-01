@@ -74,12 +74,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: test jacocoTestReport
-      - name: Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
-          verbose: true
       - name: Archive Unit Test results
         if: always()
         uses: actions/upload-artifact@v2
