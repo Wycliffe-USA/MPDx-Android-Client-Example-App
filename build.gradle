@@ -197,4 +197,4 @@ task enforceNoSnapshotDependencies {
 
         if (message) throw new GradleException("Snapshot dependencies detected: ${message}")
     }
-}
+} 
