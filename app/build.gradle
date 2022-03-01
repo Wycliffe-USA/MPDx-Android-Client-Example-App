@@ -3,10 +3,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.appdistribution'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.google.firebase.firebase-perf'
+//apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.firebase.appdistribution'
+//apply plugin: 'com.google.firebase.crashlytics'
+//apply plugin: 'com.google.firebase.firebase-perf'
 
 apply plugin: 'org.ajoberstar.grgit'
 
@@ -16,18 +16,18 @@ android {
     compileSdkVersion 31
 
     defaultConfig {
-        applicationId "org.mpdx"
+        applicationId "org.mpdx.example"
         minSdkVersion 21
         targetSdkVersion 31
 
         versionCode grgit.log(includes:['HEAD']).size()
         versionName project.version
 
-        buildConfigField "String", "OKTA_AUTH_SCHEME", '"org.mpdx"'
+        buildConfigField "String", "OKTA_AUTH_SCHEME", '"org.mpdx.example"'
         buildConfigField "String", "OKTA_CLIENT_ID", '"0oa1lhhexumq8ueTU0h8"'
         buildConfigField "String", "OKTA_DISCOVERY_URI", '"https://signon.okta.com"'
 
-        manifestPlaceholders = [appAuthRedirectScheme: "org.mpdx"]
+        manifestPlaceholders = [appAuthRedirectScheme: "org.mpdx.example"]
 
         vectorDrawables {
             useSupportLibrary = true
@@ -42,12 +42,12 @@ android {
     }
 
     signingConfigs {
-        firebaseAppDistribution {
-            storeFile rootProject.file(firebaseAppDistributionKeystorePath)
-            storePassword firebaseAppDistributionKeystoreStorePassword
-            keyAlias firebaseAppDistributionKeystoreKeyAlias
-            keyPassword firebaseAppDistributionKeystoreKeyPassword
-        }
+//        firebaseAppDistribution {
+//            storeFile rootProject.file(firebaseAppDistributionKeystorePath)
+//            storePassword firebaseAppDistributionKeystoreStorePassword
+//            keyAlias firebaseAppDistributionKeystoreKeyAlias
+//            keyPassword firebaseAppDistributionKeystoreKeyPassword
+//        }
     }
 
     buildTypes {
@@ -65,16 +65,16 @@ android {
             versionNameSuffix '-qa'
             applicationIdSuffix ".qa"
 
-            if (project.hasProperty('firebaseAppDistributionBuild')) {
-                signingConfig signingConfigs.firebaseAppDistribution
-
-                firebaseAppDistribution {
-                    appId = '1:1053463711496:android:c195e3579737ad79bca6bd'
-                    releaseNotes = generateFirebaseAppDistributionReleaseNotes()
-                    serviceCredentialsFile = rootProject.file("firebase/firebase_api_key.json")
-                    groups = 'android-testers'
-                }
-            }
+//            if (project.hasProperty('firebaseAppDistributionBuild')) {
+//                signingConfig signingConfigs.firebaseAppDistribution
+//
+//                firebaseAppDistribution {
+//                    appId = '1:1053463711496:android:c195e3579737ad79bca6bd'
+//                    releaseNotes = generateFirebaseAppDistributionReleaseNotes()
+//                    serviceCredentialsFile = rootProject.file("firebase/firebase_api_key.json")
+//                    groups = 'android-testers'
+//                }
+//            }
         }
         release {
             minifyEnabled true
@@ -156,10 +156,10 @@ dependencies {
     implementation "androidx.core:core-ktx:${deps.androidX.core}"
     implementation libs.materialComponents
 
-    implementation libs.firebase.core
-    implementation libs.firebase.crashlytics
-    implementation "com.google.firebase:firebase-messaging:${deps.firebase.messaging}"
-    implementation "com.google.firebase:firebase-iid:${deps.firebase.id}"
+//    implementation libs.firebase.core
+//    implementation libs.firebase.crashlytics
+//    implementation "com.google.firebase:firebase-messaging:${deps.firebase.messaging}"
+//    implementation "com.google.firebase:firebase-iid:${deps.firebase.id}"
 
     implementation "org.ccci.gto.android:gto-support-androidx-lifecycle:${deps.gtoSupport}"
     implementation "org.ccci.gto.android:gto-support-api-okhttp3:${deps.gtoSupport}"
@@ -204,12 +204,12 @@ dependencies {
 
 // make crashlytics upload task dependent on the assemble task for all build variants
 afterEvaluate {
-    android.applicationVariants.all { variant ->
-        def assembleTask = project.tasks.getByName("assemble${variant.name.capitalize()}")
-
-        def appDistributionTask = project.tasks.getByName("appDistributionUpload${variant.name.capitalize()}")
-        appDistributionTask.dependsOn assembleTask
-    }
+//    android.applicationVariants.all { variant ->
+//        def assembleTask = project.tasks.getByName("assemble${variant.name.capitalize()}")
+//
+//        def appDistributionTask = project.tasks.getByName("appDistributionUpload${variant.name.capitalize()}")
+//        appDistributionTask.dependsOn assembleTask
+//    }
 }
 
 def generateFirebaseAppDistributionReleaseNotes(size = 10) {
