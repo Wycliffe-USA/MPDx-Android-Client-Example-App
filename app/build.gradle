@@ -41,15 +41,6 @@ android {
         dataBinding = true
     }
 
-    signingConfigs {
-//        firebaseAppDistribution {
-//            storeFile rootProject.file(firebaseAppDistributionKeystorePath)
-//            storePassword firebaseAppDistributionKeystoreStorePassword
-//            keyAlias firebaseAppDistributionKeystoreKeyAlias
-//            keyPassword firebaseAppDistributionKeystoreKeyPassword
-//        }
-    }
-
     buildTypes {
         debug {
             versionNameSuffix '-dev'
