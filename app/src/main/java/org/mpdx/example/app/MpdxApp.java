@@ -15,6 +15,11 @@ import io.realm.Realm;
 import io.realm.log.RealmLog;
 import timber.log.Timber;
 
+/**
+ * This class is for setting up the Application class.  In this class you will initialize any application
+ * level functionality. You are also required to add the @HiltAndroidApp annotation to get Dagger Hilt
+ * working.
+ */
 @HiltAndroidApp
 public class MpdxApp extends Application {
     @Override
@@ -27,13 +32,20 @@ public class MpdxApp extends Application {
         super.onCreate();
     }
 
+    /**
+     * This method is to initialize the Realm Database which is used for the MPDx app.
+     */
     private void initRealm() {
         Realm.init(this);
         RealmLog.add((level, tag, throwable, message) -> Timber.tag(tag).log(level, throwable, message));
     }
 
+    /**
+     * This is to add Crashlytics to Timber. Commented out because Firebase is not implemented in
+     * this example.
+     */
     private void initializeCrashlytics() {
-        Timber.plant(new CrashlyticsTree());
+//        Timber.plant(new CrashlyticsTree());
     }
 
     @Inject
