@@ -19,9 +19,11 @@ import org.mpdx.example.BuildConfig
 import org.mpdx.example.R
 import org.mpdx.example.features.splash.SplashActivity
 
+/** This module is to create dagger references for App Specific Dagger Providers. */
 @InstallIn(SingletonComponent::class)
 @Module(includes = [EagerModule::class])
 class AppModule {
+    //region App Providers
     @Provides
     fun providesContext(application: Application): Context {
         return application
@@ -51,7 +53,9 @@ class AppModule {
     fun providesTasksComparator(stringResolver: StringResolver): TasksComparator {
         return TasksComparator(stringResolver)
     }
+    // endregion App Providers
 
+    /** This Provider allows all the library to use App Specific constants */
     @Provides
     fun providesAppContanstant(): AppConstantListener {
         return object : AppConstantListener {
@@ -69,6 +73,7 @@ class AppModule {
         }
     }
 
+    /** This Providers allows the Okta Library to use App specific Constants */
     @Provides
     fun providesOktaAppConstant(): OktaAppListener {
         return object : OktaAppListener {
