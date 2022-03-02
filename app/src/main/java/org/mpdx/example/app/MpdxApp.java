@@ -5,7 +5,7 @@ import android.app.Application;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.ccci.gto.android.common.dagger.eager.EagerSingletonInitializer;
-import org.ccci.gto.android.common.firebase.crashlytics.timber.CrashlyticsTree;
+//import org.ccci.gto.android.common.firebase.crashlytics.timber.CrashlyticsTree;
 
 import javax.inject.Inject;
 
