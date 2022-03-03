@@ -1,6 +1,6 @@
 # Client Example fo MPDx Implementation
 
-This Repository is to give an example on how to implement the MPDx Android Libraries for your application
+This Repository is to give an example on how to implement the MPDx Android Libraries for your application.  The best way to use this Repository is to create a Fork of it and adjust what is needed for your implementation.
 
 ## Gradle Implementation
 ### Project Gradle
