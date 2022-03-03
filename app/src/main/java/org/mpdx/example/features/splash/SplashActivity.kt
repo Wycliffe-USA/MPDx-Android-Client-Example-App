@@ -14,6 +14,9 @@ import org.mpdx.android.features.secure.UnlockFragment
 
 fun Activity.startSplashActivity() = startActivity(Intent(this, SplashActivity::class.java))
 
+/**
+ * This class serves as the entry point into the MPDx Application.
+ */
 @AndroidEntryPoint
 class SplashActivity : BaseActivity() {
     @Inject
@@ -54,16 +57,13 @@ class SplashActivity : BaseActivity() {
     }
     // endregion Lifecycle
 
+    /**
+     * This method check if your are logged into Okta and if you are starts the MPDx Application.
+     */
     private fun startNextActivity() {
         if (!oktaClient.sessionClient.isAuthenticated) {
             showLoginDialogIfNecessary()
         } else {
-            // XXX: we need to always go to UnlockFragment because it initializes some preferences
-//            if (mRealmManager.isUnlocked) {
-//                startActivity(MainActivity.getIntent(this, deepLinkType, deepLinkId))
-//            } else {
-//                ModalActivity.launchActivity(this, UnlockFragment.create(deepLinkType, deepLinkId, deepLinkTime), true)
-//            }
             ModalActivity.launchActivity(this, UnlockFragment.create(deepLinkType, deepLinkId, deepLinkTime), true)
             finish()
         }

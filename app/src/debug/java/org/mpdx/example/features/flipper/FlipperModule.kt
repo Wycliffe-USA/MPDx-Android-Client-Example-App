@@ -24,6 +24,9 @@ import javax.inject.Singleton
 import okhttp3.Interceptor
 import org.ccci.gto.android.common.dagger.eager.EagerSingleton
 
+/**
+ * This module is an example of adding Flipper to your build.  This module is only available in debug builds.
+ */
 @InstallIn(SingletonComponent::class)
 @Module
 abstract class FlipperModule {

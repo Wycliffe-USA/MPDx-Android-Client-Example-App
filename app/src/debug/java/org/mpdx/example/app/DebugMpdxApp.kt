@@ -8,6 +8,9 @@ import org.ccci.gto.android.common.leakcanary.crashlytics.CrashlyticsOnHeapAnaly
 import org.ccci.gto.android.common.okhttp3.util.addGlobalNetworkInterceptor
 import timber.log.Timber
 
+/**
+ * This class is debug version of the MpdxApp which will allow you set up different listeners and interceptors.
+ */
 class DebugMpdxApp : MpdxApp() {
     override fun onCreate() {
         configLeakCanary()
