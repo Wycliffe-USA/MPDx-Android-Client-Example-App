@@ -5,7 +5,7 @@ import android.app.Application;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.ccci.gto.android.common.dagger.eager.EagerSingletonInitializer;
-//import org.ccci.gto.android.common.firebase.crashlytics.timber.CrashlyticsTree;
+import org.ccci.gto.android.common.firebase.crashlytics.timber.CrashlyticsTree;
 
 import javax.inject.Inject;
 
@@ -41,11 +41,10 @@ public class MpdxApp extends Application {
     }
 
     /**
-     * This is to add Crashlytics to Timber. Commented out because Firebase is not implemented in
-     * this example.
+     * This is to add Crashlytics to Timber.
      */
     private void initializeCrashlytics() {
-//        Timber.plant(new CrashlyticsTree());
+        Timber.plant(new CrashlyticsTree());
     }
 
     @Inject
