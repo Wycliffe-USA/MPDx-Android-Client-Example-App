@@ -6,7 +6,7 @@ buildscript {
                 advrecyclerview    : '1.0.0',
                 butterknife        : '10.2.3',
                 facebookSoloader   : '0.10.3',
-                flipperRealm       : '2.1.0',
+                flipperRealm       : '2.2.0',
                 gtoSupport         : libs.versions.gtoSupport.get(),
                 guava              : '31.0.1-android',
                 hamcrest           : '2.2',
