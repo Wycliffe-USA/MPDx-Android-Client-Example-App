@@ -13,12 +13,12 @@ apply plugin: 'org.ajoberstar.grgit'
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "org.mpdx.example"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
 
         versionCode grgit.log(includes:['HEAD']).size()
         versionName project.version
