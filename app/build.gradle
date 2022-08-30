@@ -103,17 +103,16 @@ android {
     dexOptions {
         javaMaxHeapSize "2g"
     }
-    lintOptions {
-        lintConfig file('../analysis/lint/lint.xml')
-        htmlOutput file("$project.buildDir/reports/lint/lint.html")
-        xmlOutput file("$project.buildDir/reports/lint/lintReport.xml")
-
-        abortOnError true
-    }
     testOptions {
         unitTests {
             includeAndroidResources = true
         }
+    }
+    lint {
+        abortOnError true
+        htmlOutput file("$project.buildDir/reports/lint/lint.html")
+        lintConfig file('../analysis/lint/lint.xml')
+        xmlOutput file("$project.buildDir/reports/lint/lintReport.xml")
     }
 
     configurations.all {
