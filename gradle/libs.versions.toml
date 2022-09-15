@@ -1,9 +1,9 @@
 [versions]
-android-gradle-plugin = "7.2.1"
+android-gradle-plugin = "7.2.2"
 androidx-lifecycle = "2.5.0"
 dagger = "2.42"
 facebook-flipper = "0.154.0"
-gtoSupport = "3.11.0"
+gtoSupport = "3.11.1"
 kotlin = "1.7.0"
 kotlinCoroutines = "1.6.4"
 ktlint = "0.41.0"
