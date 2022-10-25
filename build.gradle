@@ -23,7 +23,7 @@ buildscript {
                 timber             : '5.0.1',
         ]
         deps.androidX = [
-                activity          : '1.6.0',
+                activity          : '1.6.1',
                 biometric         : '1.1.0',
                 cardView          : '1.0.0',
                 core              : '1.9.0',
