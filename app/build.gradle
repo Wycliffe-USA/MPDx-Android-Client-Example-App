@@ -124,7 +124,7 @@ android {
 }
 
 ext {
-    gson = '2.10'
+    gson = '2.10.1'
 }
 
 dependencies {
