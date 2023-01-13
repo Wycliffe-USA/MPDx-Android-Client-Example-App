@@ -114,6 +114,7 @@ android {
         lintConfig file('../analysis/lint/lint.xml')
         xmlOutput file("$project.buildDir/reports/lint/lintReport.xml")
     }
+    namespace 'org.mpdx.example'
 
     configurations.all {
         resolutionStrategy {
