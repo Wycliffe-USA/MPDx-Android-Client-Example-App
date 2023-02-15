@@ -44,7 +44,7 @@ public class MpdxApp extends Application {
      * This is to add Crashlytics to Timber.
      */
     private void initializeCrashlytics() {
-        Timber.plant(new CrashlyticsTree());
+//        Timber.plant(new CrashlyticsTree());
     }
 
     @Inject

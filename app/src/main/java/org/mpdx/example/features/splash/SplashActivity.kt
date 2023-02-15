@@ -44,7 +44,11 @@ class SplashActivity : BaseActivity(), OktaActivityListener {
     }
 
     override fun onResume() {
-        super.onResume()
+        try {
+            super.onResume()
+        }catch (e:Exception){
+            Timber.e(e)
+        }
         if (deepLinkIsOtherAccount) return
         when {
             oktaClient.isInProgress -> {
