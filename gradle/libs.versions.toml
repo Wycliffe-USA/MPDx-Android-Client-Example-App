@@ -23,7 +23,7 @@ facebook-flipper = { module = "com.facebook.flipper:flipper", version.ref = "fac
 facebook-flipper-plugins-network = { module = "com.facebook.flipper:flipper-network-plugin", version.ref = "facebook-flipper" }
 firebase-core = "com.google.firebase:firebase-core:20.0.2"
 firebase-crashlytics = "com.google.firebase:firebase-crashlytics:18.2.6"
-firebase-perf = "com.google.firebase:firebase-perf:20.0.4"
+firebase-perf = "com.google.firebase:firebase-perf:20.3.1"
 gtoSupport-androidx-fragment = { module = "org.ccci.gto.android:gto-support-androidx-fragment", version.ref = "gtoSupport" }
 gtoSupport-testing-picasso = { module = "org.ccci.gto.android.testing:gto-support-picasso", version.ref = "gtoSupport" }
 gtoSupport-testing-timber = { module = "org.ccci.gto.android.testing:gto-support-timber", version.ref = "gtoSupport" }
