@@ -33,7 +33,7 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dag
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-playServices = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinCoroutines" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref="kotlin"}
-leakcanary = "com.squareup.leakcanary:leakcanary-android:2.8.1"
+leakcanary = "com.squareup.leakcanary:leakcanary-android:2.10"
 materialComponents = "com.google.android.material:material:1.8.0"
 mockito = "org.mockito:mockito-inline:5.2.0"
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "4.0.0" }
