@@ -12,7 +12,7 @@ okhttp3 = "4.10.0"
 
 [libraries]
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
-androidx-appcompat = "androidx.appcompat:appcompat:1.4.1"
+androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
 androidx-constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 androidx-databinding-compiler = { module = "androidx.databinding:databinding-compiler", version.ref = "android-gradle-plugin" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version = "1.5.5" }
