@@ -3,7 +3,7 @@ package org.mpdx.example.app.service
 // import com.google.firebase.messaging.FirebaseMessagingService
 // import com.google.firebase.messaging.RemoteMessage
 // import android.content.Intent
-// import org.mpdx.features.splash.SplashActivity
+// import org.mpdx.example.features.splash.SplashActivity
 // import android.app.PendingIntent
 // import org.mpdx.R
 // import android.app.NotificationChannel

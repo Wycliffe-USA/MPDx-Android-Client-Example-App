@@ -7,20 +7,18 @@ import com.okta.oidc.AuthorizationStatus
 import com.okta.oidc.clients.web.WebAuthClient
 import com.okta.oidc.util.AuthorizationException
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import org.ccci.gto.android.common.okta.oidc.clients.sessions.isAuthenticatedLiveData
 import org.mpdx.android.core.modal.ModalActivity
 import org.mpdx.android.features.base.BaseActivity
 import org.mpdx.android.features.onboarding.OnboardingActivity
 import org.mpdx.android.features.secure.UnlockFragment
+import org.mpdx.android.library.okta.dagger.OktaErrorDialog
 import org.mpdx.android.library.okta.listener.OktaActivityListener
 import timber.log.Timber
+import javax.inject.Inject
 
 fun Activity.startSplashActivity() = startActivity(Intent(this, SplashActivity::class.java))
 
-/**
- * This class serves as the entry point into the MPDx Application.
- */
 @AndroidEntryPoint
 class SplashActivity : BaseActivity(), OktaActivityListener {
     @Inject
@@ -44,11 +42,7 @@ class SplashActivity : BaseActivity(), OktaActivityListener {
     }
 
     override fun onResume() {
-        try {
-            super.onResume()
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
+        super.onResume()
         if (deepLinkIsOtherAccount) return
         when {
             oktaClient.isInProgress -> {
@@ -60,18 +54,17 @@ class SplashActivity : BaseActivity(), OktaActivityListener {
             }
             else -> {
                 OnboardingActivity.startActivity(this)
+                finish()
             }
         }
     }
     // endregion Lifecycle
 
-    /**
-     * This method check if your are logged into Okta and if you are starts the MPDx Application.
-     */
     private fun startNextActivity() {
         if (!oktaClient.sessionClient.isAuthenticated) {
             showLoginDialogIfNecessary()
         } else {
+            // XXX: we need to always go to UnlockFragment because it initializes some preferences
             ModalActivity.launchActivity(this, UnlockFragment.create(deepLinkType, deepLinkId, deepLinkTime), true)
             finish()
         }
@@ -87,14 +80,27 @@ class SplashActivity : BaseActivity(), OktaActivityListener {
     override fun showUnlockScreen() = false
     override val pageName = "Splash"
 
+    // region OktaCallbacks
+    /**
+     * Method called on authorized with a result.
+     *
+     * @param result Result of the authorized request.
+     */
+    override fun onSuccess(result: AuthorizationStatus) {}
+
     /**
      * Method called when login is canceled with a result.
+     *
+     * This occurs when you close the Okta Page
      */
     override fun onCancel() {
-        // Reload when Login Canceled
+        // Restart SplashActivity when canceled
         startSplashActivity()
         finish()
     }
+
+    private var isErrorDisplaying = false
+
     /**
      * Method called on error with a the authorized request call.
      *
@@ -102,14 +108,11 @@ class SplashActivity : BaseActivity(), OktaActivityListener {
      * @param exception The [com.okta.oidc.util.AuthorizationException] type of exception
      */
     override fun onError(msg: String?, exception: AuthorizationException?) {
-        // Track errors logged by Okta
-        Timber.e(exception, msg)
+        Timber.e(msg, exception)
+        if (!isErrorDisplaying) { // Prevent from launching multiple times
+            OktaErrorDialog(this).show()
+            isErrorDisplaying = true
+        }
     }
-
-    /**
-     * Method called on authorized with a result.
-     *
-     * @param result Result of the authorized request.
-     */
-    override fun onSuccess(result: AuthorizationStatus) {}
+    // endregion
 }

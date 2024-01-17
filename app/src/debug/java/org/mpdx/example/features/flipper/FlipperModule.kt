@@ -20,9 +20,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import io.realm.Realm
-import javax.inject.Singleton
 import okhttp3.Interceptor
 import org.ccci.gto.android.common.dagger.eager.EagerSingleton
+import javax.inject.Singleton
 
 /**
  * This module is an example of adding Flipper to your build.  This module is only available in debug builds.
@@ -64,8 +64,8 @@ abstract class FlipperModule {
                 context,
                 object : RealmDatabaseProvider {
                     override fun getRealmConfigurations() = listOfNotNull(Realm.getDefaultConfiguration())
-                }
-            )
+                },
+            ),
         )
 
         @IntoSet

@@ -1,23 +1,24 @@
 package org.mpdx.example.app.service
 
 import android.app.Application
+import org.greenrobot.eventbus.EventBus
+import javax.inject.Inject
+import javax.inject.Singleton
+
+// import org.ccci.gto.android.common.okta.oidc.OktaUserProfileProvider
+// import kotlinx.coroutines.CoroutineScope
+// import kotlinx.coroutines.Dispatchers
+// import kotlinx.coroutines.flow.launchIn
+// import kotlinx.coroutines.flow.onEach
+// import org.ccci.gto.android.common.compat.util.LocaleCompat
+// import org.ccci.gto.android.common.okta.oidc.net.response.grMasterPersonId
+// import org.ccci.gto.android.common.okta.oidc.net.response.ssoGuid
 // import android.os.Bundle
 // import androidx.annotation.AnyThread
 // import androidx.annotation.MainThread
 // import com.google.firebase.analytics.FirebaseAnalytics
 // import com.okta.oidc.net.response.UserInfo
 // import java.util.Locale
-import javax.inject.Inject
-import javax.inject.Singleton
-// import kotlinx.coroutines.CoroutineScope
-// import kotlinx.coroutines.Dispatchers
-// import kotlinx.coroutines.flow.launchIn
-// import kotlinx.coroutines.flow.onEach
-// import org.ccci.gto.android.common.compat.util.LocaleCompat
-import org.ccci.gto.android.common.okta.oidc.OktaUserProfileProvider
-// import org.ccci.gto.android.common.okta.oidc.net.response.grMasterPersonId
-// import org.ccci.gto.android.common.okta.oidc.net.response.ssoGuid
-import org.greenrobot.eventbus.EventBus
 // import org.greenrobot.eventbus.Subscribe
 // import org.greenrobot.eventbus.ThreadMode
 // import org.mpdx.android.features.analytics.AnalyticsSystem
@@ -43,7 +44,7 @@ private const val APP_NAME = "MPDx App"
 class FirebaseAnalyticsService @Inject constructor(
     application: Application,
     eventBus: EventBus,
-    private val oktaUserProfileProvider: OktaUserProfileProvider
+//    private val oktaUserProfileProvider: OktaUserProfileProvider,
 )
 // ) : BaseAnalyticsService() {
 //    private val analytics = FirebaseAnalytics.getInstance(application)
