@@ -29,13 +29,14 @@ android {
 
         manifestPlaceholders += mapOf("appAuthRedirectScheme" to "org.mpdx")
 
-        buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mpdx.org/api/v2/\"")
+        buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd.wycliffe.org/\"")
 
-        buildConfigField("String", "AUTH_END_POINT", "\"org.mpdx\"")
-        buildConfigField("String", "TOKEN_END_POINT", "\"org.mpdx\"")
-        buildConfigField("String", "CLIENT_ID", "\"org.mpdx\"")
-        buildConfigField("String", "REDIRECT_URI", "\"org.mpdx\"")
-        buildConfigField("String", "AUTH_PROVIDER", "\"org.mpdx\"")
+        buildConfigField("String", "AUTH_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/authorize\"")
+        buildConfigField("String", "TOKEN_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/token\"")
+        //TODO:  Add DoorKeeper UID
+        buildConfigField("String", "CLIENT_ID", "\"DoorKeeperSecret\"")
+        buildConfigField("String", "REDIRECT_URI", "\"https://api.mypd.wycliffe.org\"")
+        buildConfigField("String", "AUTH_PROVIDER", "\"API_OAUTH\"")
 
         manifestPlaceholders += mapOf("hostMpdxWeb" to "mpdx.org")
 
