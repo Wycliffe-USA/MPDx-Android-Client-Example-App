@@ -10,7 +10,7 @@ import org.mpdx.example.BuildConfig
 
 @InstallIn(SingletonComponent::class)
 @Module(includes = [EagerModule::class])
-class OauthAppModule {
+class AuthorizationAppModule {
 
     @Provides
     fun providesOAuthAppConstant(): OAuthAppListener {
