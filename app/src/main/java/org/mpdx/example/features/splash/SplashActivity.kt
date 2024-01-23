@@ -1,4 +1,4 @@
-package org.mpdx.example.feature.splash
+package org.mpdx.example.features.splash
 
 import android.app.Activity
 import android.content.Intent
