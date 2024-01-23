@@ -57,7 +57,6 @@ android {
 
     flavorDimensions.add("env")
     productFlavors {
-
     }
 }
 
