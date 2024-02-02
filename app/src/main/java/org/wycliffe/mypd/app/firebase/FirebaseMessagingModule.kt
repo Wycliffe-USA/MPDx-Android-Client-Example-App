@@ -1,4 +1,4 @@
-package org.mpdx.example.app.firebase
+package org.wycliffe.mypd.app.firebase
 
 import dagger.Module
 import dagger.hilt.InstallIn

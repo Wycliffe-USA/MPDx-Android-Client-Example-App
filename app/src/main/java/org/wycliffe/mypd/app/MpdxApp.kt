@@ -1,4 +1,4 @@
-package org.mpdx.example.app
+package org.wycliffe.mypd.app
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate

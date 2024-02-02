@@ -1,4 +1,4 @@
-package org.mpdx.example.features.splash
+package org.wycliffe.mypd.features.splash
 
 import android.app.Activity
 import android.content.Intent
