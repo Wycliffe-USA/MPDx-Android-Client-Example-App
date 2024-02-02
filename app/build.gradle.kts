@@ -47,7 +47,51 @@ android {
         dataBinding = true
         buildConfig = true
     }
+    buildTypes {
+        named("debug") {
+            versionNameSuffix = "-dev"
+            applicationIdSuffix = ".dev"
+        }
+        register("qa") {
+            initWith(getByName("debug"))
+            matchingFallbacks += listOf("debug")
+            versionNameSuffix = "-qa"
+            applicationIdSuffix = ".qa"
 
+            if (project.hasProperty("firebaseAppDistributionBuild")) {
+                signingConfig = signingConfigs.create("firebaseAppDistribution") {
+                    storeFile = project.properties["firebaseAppDistributionKeystorePath"]?.let { rootProject.file(it) }
+                    storePassword = project.properties["firebaseAppDistributionKeystoreStorePassword"].toString()
+                    keyAlias = project.properties["firebaseAppDistributionKeystoreKeyAlias"].toString()
+                    keyPassword = project.properties["firebaseAppDistributionKeystoreKeyPassword"].toString()
+                }
+// TODO:  Add when firebase is implemented
+//                firebaseAppDistribution {
+//                    appId = "1:1053463711496:android:c195e3579737ad79bca6bd"
+//                    releaseNotes = generateFirebaseAppDistributionReleaseNotes()
+//                    serviceCredentialsFile = rootProject.file("firebase/firebase_api_key.json").toString()
+//                    groups = "android-testers"
+//                }
+            }
+            isMinifyEnabled = true
+            isShrinkResources = true
+        }
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+        }
+    }
+    sourceSets {
+        named("qa") {
+            java.srcDir("src/debug/java")
+            kotlin.srcDir("src/debug/kotlin")
+            res.srcDir("src/debug/res/values")
+            manifest.srcFile("src/debug/AndroidManifest.xml")
+        }
+    }
+    configurations {
+        named("testImplementation") { extendsFrom(getByName("debugImplementation")) }
+    }
     kapt {
         javacOptions {
             // Increase the max count of errors from annotation processors.
