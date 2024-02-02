@@ -2,9 +2,9 @@ name: Build App
 
 on:
   push:
-    branches: [develop, master, feature/* ]
+    branches: [test, prod, feature/* ]
   pull_request:
-    branches: [develop, master, feature/* ]
+    branches: [test, prod, feature/* ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
