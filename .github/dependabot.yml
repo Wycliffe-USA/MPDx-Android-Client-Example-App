@@ -5,9 +5,9 @@ updates:
   schedule:
     interval: daily
   reviewers:
-    - gyasistory
+    - kyle-edwards
   assignees:
-    - gyasistory
+    - kyle-edwards
   ignore:
   - dependency-name: org.jetbrains.kotlinx:kotlinx-coroutines-*
     versions:
