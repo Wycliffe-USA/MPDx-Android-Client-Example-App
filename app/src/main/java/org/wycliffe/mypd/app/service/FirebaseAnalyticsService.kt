@@ -1,4 +1,4 @@
-package org.mpdx.example.app.service
+package org.wycliffe.mypd.app.service
 
 import android.app.Application
 import org.greenrobot.eventbus.EventBus

@@ -1,4 +1,4 @@
-package org.mpdx.example.app.dagger
+package org.wycliffe.mypd.app.dagger
 
 import dagger.Module
 import dagger.Provides
@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.ccci.gto.android.common.dagger.eager.EagerModule
 import org.mpdx.android.library.oauth.listener.OAuthAppListener
-import org.mpdx.example.BuildConfig
+import org.wycliffe.mypd.BuildConfig
 
 @InstallIn(SingletonComponent::class)
 @Module(includes = [EagerModule::class])

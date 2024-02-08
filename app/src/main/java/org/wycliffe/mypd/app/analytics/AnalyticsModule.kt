@@ -1,4 +1,4 @@
-package org.mpdx.example.app.analytics
+package org.wycliffe.mypd.app.analytics
 
 import dagger.Binds
 import dagger.Module
@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import org.ccci.gto.android.common.dagger.eager.EagerSingleton
-import org.mpdx.example.app.service.FirebaseAnalyticsService
+import org.wycliffe.mypd.app.service.FirebaseAnalyticsService
 
 /**
  * This Module is for setting up your Analytics Service.

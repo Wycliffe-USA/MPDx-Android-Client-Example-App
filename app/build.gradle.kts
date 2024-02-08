@@ -18,12 +18,12 @@ plugins {
 }
 
 android {
-    namespace = "org.mpdx.example"
+    namespace = "org.wycliffe.mypd"
 
     baseConfiguration(project)
     configureCompose(project)
     defaultConfig {
-        applicationId = "org.mpdx.example"
+        applicationId = "org.wycliffe.mypd"
         versionName = project.version.toString()
         versionCode = grgit.log(mapOf("includes" to listOf("HEAD"))).size
 
