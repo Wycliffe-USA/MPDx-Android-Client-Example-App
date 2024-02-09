@@ -25,7 +25,7 @@ class FirebaseMessagingManager @Inject constructor(
     eventBus: EventBus,
     private val authenticationListener: AuthenticationListener,
     private val userDeviceApi: UserDeviceApi,
-    private val appConstantListener: AppConstantListener
+    private val appConstantListener: AppConstantListener,
 ) : CoroutineScope {
     private val job = SupervisorJob()
     override val coroutineContext get() = Dispatchers.Main + job
