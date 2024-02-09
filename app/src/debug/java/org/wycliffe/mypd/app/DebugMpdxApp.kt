@@ -1,5 +1,4 @@
 package org.wycliffe.mypd.app
-
 import android.content.Context
 import leakcanary.LeakCanary
 import okhttp3.logging.HttpLoggingInterceptor
