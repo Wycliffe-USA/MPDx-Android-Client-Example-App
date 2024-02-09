@@ -8,10 +8,10 @@ plugins {
     kotlin("plugin.parcelize")
     kotlin("kapt")
 
-//    id("com.google.gms.google-services")
-//    id("com.google.firebase.appdistribution")
-//    id("com.google.firebase.crashlytics")
-//    id("com.google.firebase.firebase-perf")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.appdistribution")
+    id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
 
     alias(libs.plugins.grgit)
     alias(libs.plugins.ktlint)
