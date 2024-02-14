@@ -1,9 +1,9 @@
 package org.wycliffe.mypd.app.firebase
 
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dagger.Provides
 import dagger.multibindings.ElementsIntoSet
 import org.ccci.gto.android.common.dagger.eager.EagerSingleton
 

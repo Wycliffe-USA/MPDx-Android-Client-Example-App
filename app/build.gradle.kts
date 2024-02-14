@@ -90,7 +90,7 @@ android {
         }
     }
     configurations {
-        named("testImplementation") { extendsFrom(getByName("debugImplementation")) }
+        named("qaImplementation") { extendsFrom(getByName("debugImplementation")) }
     }
     kapt {
         javacOptions {

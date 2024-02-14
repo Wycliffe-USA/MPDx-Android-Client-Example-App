@@ -164,7 +164,7 @@ jobs:
     name: Deploy Beta Build
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/prod'
-    needs: [ build, checkstyle, ktlint, lint, tests, no_snapshots ]
+    needs: [ build, checkstyle, ktlint, lint, tests ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
