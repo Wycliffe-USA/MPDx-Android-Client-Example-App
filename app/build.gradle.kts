@@ -1,5 +1,3 @@
-import java.util.regex.Pattern
-
 plugins {
     alias(libs.plugins.hilt)
 
