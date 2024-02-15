@@ -65,13 +65,13 @@ android {
                     keyAlias = project.properties["firebaseAppDistributionKeystoreKeyAlias"].toString()
                     keyPassword = project.properties["firebaseAppDistributionKeystoreKeyPassword"].toString()
                 }
-// TODO:  Add when firebase is implemented
-//                firebaseAppDistribution {
-//                    appId = "1:1053463711496:android:c195e3579737ad79bca6bd"
-//                    releaseNotes = generateFirebaseAppDistributionReleaseNotes()
-//                    serviceCredentialsFile = rootProject.file("firebase/firebase_api_key.json").toString()
-//                    groups = "android-testers"
-//                }
+
+                firebaseAppDistribution {
+                    appId = "1:1053463711496:android:c195e3579737ad79bca6bd"
+                    releaseNotes = generateFirebaseAppDistributionReleaseNotes()
+                    serviceCredentialsFile = rootProject.file("firebase/firebase_api_key.json").toString()
+                    groups = "android-testers"
+                }
             }
             isMinifyEnabled = true
             isShrinkResources = true
@@ -156,20 +156,12 @@ dependencies {
     kapt(libs.hilt.compiler)
 }
 
-fun getCurrentFlavor(): String {
-    val taskRequestsStr = gradle.startParameter.taskRequests.toString()
-    val pattern: Pattern = if (taskRequestsStr.contains("assemble")) {
-        Pattern.compile("assemble(\\w+)(Release|Debug)")
-    } else {
-        Pattern.compile("bundle(\\w+)(Release|Debug)")
+fun generateFirebaseAppDistributionReleaseNotes(size: Int = 10): String {
+    var output = "Recent changes:\n\n"
+    grgit.log {
+        maxCommits = size
+    }.forEach { commit ->
+        output = output + "* " + commit.shortMessage + "\n"
     }
-
-    val matcher = pattern.matcher(taskRequestsStr)
-    val flavor = if (matcher.find()) {
-        matcher.group(1).lowercase()
-    } else {
-        print("NO FLAVOR FOUND")
-        ""
-    }
-    return flavor
+    return output
 }
