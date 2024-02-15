@@ -31,8 +31,7 @@ android {
 
         buildConfigField("String", "AUTH_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/authorize\"")
         buildConfigField("String", "TOKEN_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/token\"")
-        // TODO:  Add DoorKeeper UID
-        buildConfigField("String", "CLIENT_ID", project.properties["doorKeeperSecret"].toString())
+        buildConfigField("String", "CLIENT_ID", "\"${project.properties["doorKeeperSecret"]}\"")
         buildConfigField("String", "REDIRECT_URI", "\"https://api.mypd.wycliffe.org\"")
         buildConfigField("String", "AUTH_PROVIDER", "\"API_OAUTH\"")
 
