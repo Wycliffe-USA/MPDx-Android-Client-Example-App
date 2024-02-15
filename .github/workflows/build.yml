@@ -137,6 +137,7 @@ jobs:
     env:
       ORG_GRADLE_PROJECT_firebaseAppDistributionKeystoreStorePassword: ${{ secrets.BETA_KEYSTORE_PASSWORD }}
       ORG_GRADLE_PROJECT_firebaseAppDistributionKeystoreKeyPassword: ${{ secrets.BETA_KEYSTORE_PASSWORD }}
+      ORG_GRADLE_PROJECT_doorKeeperSecret: ${{ secrets.DOOR_KEEPER_SECRET }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -165,6 +166,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/prod'
     needs: [ build, checkstyle, ktlint, lint, tests ]
+    env:
+      ORG_GRADLE_PROJECT_doorKeeperSecret: ${{ secrets.DOOR_KEEPER_SECRET }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
