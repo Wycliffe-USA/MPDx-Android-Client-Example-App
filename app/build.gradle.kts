@@ -25,17 +25,17 @@ android {
         versionName = project.version.toString()
         versionCode = grgit.log(mapOf("includes" to listOf("HEAD"))).size
 
-        manifestPlaceholders += mapOf("appAuthRedirectScheme" to "org.mpdx")
+        manifestPlaceholders += mapOf("appAuthRedirectScheme" to "org.wycliffe.mypd")
 
         buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd.wycliffe.org/\"")
 
         buildConfigField("String", "AUTH_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/authorize\"")
         buildConfigField("String", "TOKEN_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/token\"")
-        buildConfigField("String", "CLIENT_ID", "\"${project.properties["doorKeeperSecret"]}\"")
-        buildConfigField("String", "REDIRECT_URI", "\"https://api.mypd.wycliffe.org\"")
+        buildConfigField("String", "CLIENT_ID", "\"aW-Zw4i-53xUrUfycD5oVNqscTbV5kfMJGuJaafSAh4\"")
+        buildConfigField("String", "REDIRECT_URI", "\"org.wycliffe.mypd:/oauth\"")
         buildConfigField("String", "AUTH_PROVIDER", "\"API_OAUTH\"")
 
-        manifestPlaceholders += mapOf("hostMpdxWeb" to "mpdx.org")
+        manifestPlaceholders += mapOf("hostMpdxWeb" to "mypd.wycliffe.org")
 
         proguardFile(getDefaultProguardFile("proguard-android-optimize.txt"))
         proguardFile("proguard-rules.pro")
