@@ -16,26 +16,26 @@ plugins {
 }
 
 android {
-    namespace = "org.wycliffe.mypd"
+    namespace = "org.wycliffe.mypd-test"
 
     baseConfiguration(project)
     configureCompose(project)
     defaultConfig {
-        applicationId = "org.wycliffe.mypd"
+        applicationId = "org.wycliffe.mypd-test"
         versionName = project.version.toString()
         versionCode = grgit.log(mapOf("includes" to listOf("HEAD"))).size
 
-        manifestPlaceholders += mapOf("appAuthRedirectScheme" to "org.wycliffe.mypd")
+        manifestPlaceholders += mapOf("appAuthRedirectScheme" to "org.wycliffe.mypd-test")
 
-        buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd.wycliffe.org/\"")
+        buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd-test.wycliffe.org/\"")
 
-        buildConfigField("String", "AUTH_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/authorize\"")
-        buildConfigField("String", "TOKEN_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/token\"")
-        buildConfigField("String", "CLIENT_ID", "\"aW-Zw4i-53xUrUfycD5oVNqscTbV5kfMJGuJaafSAh4\"")
-        buildConfigField("String", "REDIRECT_URI", "\"org.wycliffe.mypd:/oauth\"")
+        buildConfigField("String", "AUTH_END_POINT", "\"https://api.mypd-test.wycliffe.org/oauth/authorize\"")
+        buildConfigField("String", "TOKEN_END_POINT", "\"https://api.mypd-test.wycliffe.org/oauth/token\"")
+        buildConfigField("String", "CLIENT_ID", "\"ssIevsY4bXWq6y_DitfNMiP2y5FIInkspcQ7LQFA2WU\"")
+        buildConfigField("String", "REDIRECT_URI", "\"org.wycliffe.mypd-test:/oauth\"")
         buildConfigField("String", "AUTH_PROVIDER", "\"API_OAUTH\"")
 
-        manifestPlaceholders += mapOf("hostMpdxWeb" to "mypd.wycliffe.org")
+        manifestPlaceholders += mapOf("hostMpdxWeb" to "mypd-test.wycliffe.org")
 
         proguardFile(getDefaultProguardFile("proguard-android-optimize.txt"))
         proguardFile("proguard-rules.pro")
