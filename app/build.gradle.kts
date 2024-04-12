@@ -27,7 +27,6 @@ android {
 
         buildConfigField("String", "AUTH_PROVIDER", "\"API_OAUTH\"")
 
-
         proguardFile(getDefaultProguardFile("proguard-android-optimize.txt"))
         proguardFile("proguard-rules.pro")
     }
@@ -90,7 +89,7 @@ android {
 
     flavorDimensions.add("env")
     productFlavors {
-        register("production"){
+        register("production") {
             manifestPlaceholders += mapOf("appAuthRedirectScheme" to "org.wycliffe.mypd")
 
             buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd.wycliffe.org/\"")
@@ -103,7 +102,7 @@ android {
             manifestPlaceholders += mapOf("hostMpdxWeb" to "mypd.wycliffe.org")
         }
 
-        register("development"){
+        register("development") {
             manifestPlaceholders += mapOf("appAuthRedirectScheme" to "org.wycliffe.mypd-test")
 
             buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd-test.wycliffe.org/\"")
