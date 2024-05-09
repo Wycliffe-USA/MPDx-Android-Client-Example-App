@@ -25,7 +25,7 @@ android {
         versionName = project.version.toString()
         versionCode = grgit.log(mapOf("includes" to listOf("HEAD"))).size
 
-        buildConfigField("String", "AUTH_PROVIDER", "\"API_OAUTH\"")
+        buildConfigField("String", "AUTH_PROVIDER", "\".apiOAuth\"")
 
         proguardFile(getDefaultProguardFile("proguard-android-optimize.txt"))
         proguardFile("proguard-rules.pro")
@@ -92,7 +92,7 @@ android {
         register("production") {
             manifestPlaceholders += mapOf("appAuthRedirectScheme" to "org.wycliffe.mypd")
 
-            buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd.wycliffe.org/\"")
+            buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd.wycliffe.org/api/v2/\"")
 
             buildConfigField("String", "AUTH_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/authorize\"")
             buildConfigField("String", "TOKEN_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/token\"")
@@ -105,7 +105,7 @@ android {
         register("development") {
             manifestPlaceholders += mapOf("appAuthRedirectScheme" to "org.wycliffe.mypd-test")
 
-            buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd-test.wycliffe.org/\"")
+            buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd-test.wycliffe.org/api/v2/\"")
 
             buildConfigField("String", "AUTH_END_POINT", "\"https://api.mypd-test.wycliffe.org/oauth/authorize\"")
             buildConfigField("String", "TOKEN_END_POINT", "\"https://api.mypd-test.wycliffe.org/oauth/token\"")
