@@ -2,9 +2,9 @@ name: Build App
 
 on:
   push:
-    branches: [develop, master, feature/* ]
+    branches: [test, prod, feature/* ]
   pull_request:
-    branches: [develop, master, feature/* ]
+    branches: [test, prod, feature/* ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -128,3 +128,67 @@ jobs:
         with:
           name: unit-test-results
           path: "**/build/reports/tests/"
+
+  test_build:
+    name: Deploy QA Build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/test'
+    needs: [ build, checkstyle, ktlint, lint, tests ]
+    env:
+      ORG_GRADLE_PROJECT_firebaseAppDistributionKeystoreStorePassword: ${{ secrets.BETA_KEYSTORE_PASSWORD }}
+      ORG_GRADLE_PROJECT_firebaseAppDistributionKeystoreKeyPassword: ${{ secrets.BETA_KEYSTORE_PASSWORD }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version-file: ".java-version"
+      - name: Build App
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: clean :app:packageQaProductionUniversalApk -PfirebaseAppDistributionBuild --continue --stacktrace
+      - name: Import Firebase API Key
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+        run: echo $FIREBASE_API_KEY > firebase/firebase_api_key.json
+      - name: Upload Build to Firebase
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: appDistributionUploadQaProduction -PfirebaseAppDistributionBuild
+
+  beta_build:
+    name: Deploy Beta Build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/prod'
+    needs: [ build, checkstyle, ktlint, lint, tests ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version-file: ".java-version"
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Import GooglePlayAPI.json
+        env:
+          GOOGLE_PLAY_API_KEY: ${{ secrets.GOOGLE_PLAY_API_KEY }}
+        run: echo $GOOGLE_PLAY_API_KEY > ./fastlane/GooglePlayAPI.json
+      - name: Fastlane Beta
+        env:
+          GOOGLE_PLAY_UPLOAD_KEY_PASSWORD: ${{ secrets.GOOGLE_PLAY_UPLOAD_KEY_PASSWORD }}
+        run: fastlane android beta

@@ -1,5 +1,3 @@
-import java.util.regex.Pattern
-
 plugins {
     alias(libs.plugins.hilt)
 
@@ -8,37 +6,26 @@ plugins {
     kotlin("plugin.parcelize")
     kotlin("kapt")
 
-//    id("com.google.gms.google-services")
-//    id("com.google.firebase.appdistribution")
-//    id("com.google.firebase.crashlytics")
-//    id("com.google.firebase.firebase-perf")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.appdistribution")
+    id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
 
     alias(libs.plugins.grgit)
     alias(libs.plugins.ktlint)
 }
 
 android {
-    namespace = "org.mpdx.example"
+    namespace = "org.wycliffe.mypd"
 
     baseConfiguration(project)
     configureCompose(project)
     defaultConfig {
-        applicationId = "org.mpdx.example"
+        applicationId = "org.wycliffe.mypd"
         versionName = project.version.toString()
         versionCode = grgit.log(mapOf("includes" to listOf("HEAD"))).size
 
-        manifestPlaceholders += mapOf("appAuthRedirectScheme" to "org.mpdx")
-
-        buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd.wycliffe.org/\"")
-
-        buildConfigField("String", "AUTH_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/authorize\"")
-        buildConfigField("String", "TOKEN_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/token\"")
-        // TODO:  Add DoorKeeper UID
-        buildConfigField("String", "CLIENT_ID", "\"DoorKeeperSecret\"")
-        buildConfigField("String", "REDIRECT_URI", "\"https://api.mypd.wycliffe.org\"")
-        buildConfigField("String", "AUTH_PROVIDER", "\"API_OAUTH\"")
-
-        manifestPlaceholders += mapOf("hostMpdxWeb" to "mpdx.org")
+        buildConfigField("String", "AUTH_PROVIDER", "\".apiOAuth\"")
 
         proguardFile(getDefaultProguardFile("proguard-android-optimize.txt"))
         proguardFile("proguard-rules.pro")
@@ -47,7 +34,51 @@ android {
         dataBinding = true
         buildConfig = true
     }
+    buildTypes {
+        named("debug") {
+            versionNameSuffix = "-dev"
+            applicationIdSuffix = ".dev"
+        }
+        register("qa") {
+            initWith(getByName("debug"))
+            matchingFallbacks += listOf("debug")
+            versionNameSuffix = "-qa"
+            applicationIdSuffix = ".qa"
 
+            if (project.hasProperty("firebaseAppDistributionBuild")) {
+                signingConfig = signingConfigs.create("firebaseAppDistribution") {
+                    storeFile = project.properties["firebaseAppDistributionKeystorePath"]?.let { rootProject.file(it) }
+                    storePassword = project.properties["firebaseAppDistributionKeystoreStorePassword"].toString()
+                    keyAlias = project.properties["firebaseAppDistributionKeystoreKeyAlias"].toString()
+                    keyPassword = project.properties["firebaseAppDistributionKeystoreKeyPassword"].toString()
+                }
+
+                firebaseAppDistribution {
+                    appId = "1:1053463711496:android:c195e3579737ad79bca6bd"
+                    releaseNotes = generateFirebaseAppDistributionReleaseNotes()
+                    serviceCredentialsFile = rootProject.file("firebase/firebase_api_key.json").toString()
+                    groups = "android-testers"
+                }
+            }
+            isMinifyEnabled = true
+            isShrinkResources = true
+        }
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+        }
+    }
+    sourceSets {
+        named("qa") {
+            java.srcDir("src/debug/java")
+            kotlin.srcDir("src/debug/kotlin")
+            res.srcDir("src/debug/res/values")
+            manifest.srcFile("src/debug/AndroidManifest.xml")
+        }
+    }
+    configurations {
+        named("qaImplementation") { extendsFrom(getByName("debugImplementation")) }
+    }
     kapt {
         javacOptions {
             // Increase the max count of errors from annotation processors.
@@ -58,6 +89,31 @@ android {
 
     flavorDimensions.add("env")
     productFlavors {
+        register("production") {
+            manifestPlaceholders += mapOf("appAuthRedirectScheme" to "org.wycliffe.mypd")
+
+            buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd.wycliffe.org/api/v2/\"")
+
+            buildConfigField("String", "AUTH_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/authorize\"")
+            buildConfigField("String", "TOKEN_END_POINT", "\"https://api.mypd.wycliffe.org/oauth/token\"")
+            buildConfigField("String", "CLIENT_ID", "\"aW-Zw4i-53xUrUfycD5oVNqscTbV5kfMJGuJaafSAh4\"")
+            buildConfigField("String", "REDIRECT_URI", "\"org.wycliffe.mypd:/oauth\"")
+
+            manifestPlaceholders += mapOf("hostMpdxWeb" to "mypd.wycliffe.org")
+        }
+
+        register("development") {
+            manifestPlaceholders += mapOf("appAuthRedirectScheme" to "org.wycliffe.mypd-test")
+
+            buildConfigField("String", "MPDX_API_BASE_URI", "\"https://api.mypd-test.wycliffe.org/api/v2/\"")
+
+            buildConfigField("String", "AUTH_END_POINT", "\"https://api.mypd-test.wycliffe.org/oauth/authorize\"")
+            buildConfigField("String", "TOKEN_END_POINT", "\"https://api.mypd-test.wycliffe.org/oauth/token\"")
+            buildConfigField("String", "CLIENT_ID", "\"ssIevsY4bXWq6y_DitfNMiP2y5FIInkspcQ7LQFA2WU\"")
+            buildConfigField("String", "REDIRECT_URI", "\"org.wycliffe.mypd-test:/oauth\"")
+
+            manifestPlaceholders += mapOf("hostMpdxWeb" to "mypd-test.wycliffe.org")
+        }
     }
 }
 
@@ -112,20 +168,12 @@ dependencies {
     kapt(libs.hilt.compiler)
 }
 
-fun getCurrentFlavor(): String {
-    val taskRequestsStr = gradle.startParameter.taskRequests.toString()
-    val pattern: Pattern = if (taskRequestsStr.contains("assemble")) {
-        Pattern.compile("assemble(\\w+)(Release|Debug)")
-    } else {
-        Pattern.compile("bundle(\\w+)(Release|Debug)")
+fun generateFirebaseAppDistributionReleaseNotes(size: Int = 10): String {
+    var output = "Recent changes:\n\n"
+    grgit.log {
+        maxCommits = size
+    }.forEach { commit ->
+        output = output + "* " + commit.shortMessage + "\n"
     }
-
-    val matcher = pattern.matcher(taskRequestsStr)
-    val flavor = if (matcher.find()) {
-        matcher.group(1).lowercase()
-    } else {
-        print("NO FLAVOR FOUND")
-        ""
-    }
-    return flavor
+    return output
 }

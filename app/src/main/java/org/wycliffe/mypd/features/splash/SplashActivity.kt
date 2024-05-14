@@ -1,4 +1,4 @@
-package org.mpdx.example.features.splash
+package org.wycliffe.mypd.features.splash
 
 import android.app.Activity
 import android.content.Intent
@@ -20,7 +20,7 @@ fun Activity.startSplashActivity() = startActivity(Intent(this, SplashActivity::
 @AndroidEntryPoint
 class SplashActivity : BaseActivity() {
     @Inject
-    internal lateinit var oauthManger: OAuthManager
+    lateinit var oauthManger: OAuthManager
 
     // region Lifecycle
 
@@ -59,6 +59,13 @@ class SplashActivity : BaseActivity() {
             ModalActivity.launchActivity(this, UnlockFragment.create(deepLinkType, deepLinkId, deepLinkTime), true)
             finish()
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (data != null) {
+            oauthManger.processOAuthResponse(data)
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     // region Login Dialog

@@ -1,4 +1,4 @@
-package org.mpdx.example.app.dagger
+package org.wycliffe.mypd.app.dagger
 
 import android.app.Application
 import android.content.Context
@@ -15,8 +15,8 @@ import org.mpdx.android.library.core.AppConstantListener
 import org.mpdx.android.library.core.AppResourceListener
 import org.mpdx.android.utils.StringResolver
 import org.mpdx.android.utils.TasksComparator
-import org.mpdx.example.BuildConfig
-import org.mpdx.example.features.splash.SplashActivity
+import org.wycliffe.mypd.BuildConfig
+import org.wycliffe.mypd.features.splash.SplashActivity
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)

@@ -1,4 +1,4 @@
-package org.mpdx.example.features.flipper
+package org.wycliffe.mypd.features.flipper
 
 import android.content.Context
 import com.facebook.flipper.android.AndroidFlipperClient
