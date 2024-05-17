@@ -2,28 +2,23 @@ package org.wycliffe.mypd.app.dagger
 
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.ccci.gto.android.common.dagger.eager.EagerModule
-import org.mpdx.android.library.oauth.listener.OAuthAppListener
+import org.mpdx.android.library.oauth.OAuthConfig
 import org.wycliffe.mypd.BuildConfig
 
 @InstallIn(SingletonComponent::class)
 @Module(includes = [EagerModule::class])
 class AuthorizationAppModule {
-
     @Provides
-    fun providesOAuthAppConstant(): OAuthAppListener {
-        return object : OAuthAppListener {
-            override fun authProvider() = BuildConfig.AUTH_PROVIDER
-
-            override fun authorizationEndPoint() = BuildConfig.AUTH_END_POINT
-
-            override fun clientId() = BuildConfig.CLIENT_ID
-
-            override fun redirectUri() = BuildConfig.REDIRECT_URI
-
-            override fun tokenEndPoint() = BuildConfig.TOKEN_END_POINT
-        }
-    }
+    @Reusable
+    fun oauthConfig() = OAuthConfig(
+        authorizationEndPoint = BuildConfig.AUTH_END_POINT,
+        tokenEndPoint = BuildConfig.TOKEN_END_POINT,
+        clientId = BuildConfig.CLIENT_ID,
+        redirectUri = BuildConfig.REDIRECT_URI,
+        authProvider = BuildConfig.AUTH_PROVIDER,
+    )
 }
