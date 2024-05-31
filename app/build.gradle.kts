@@ -113,6 +113,12 @@ android {
             buildConfigField("String", "REDIRECT_URI", "\"org.wycliffe.mypd-test:/oauth\"")
 
             manifestPlaceholders += mapOf("hostMpdxWeb" to "mypd-test.wycliffe.org")
+            // only enable this flavor for debug buildTypes
+            androidComponents {
+                beforeVariants(selector().withFlavor("env" to "development")) {
+                    it.enable = it.buildType == "debug"
+                }
+            }
         }
     }
 }
