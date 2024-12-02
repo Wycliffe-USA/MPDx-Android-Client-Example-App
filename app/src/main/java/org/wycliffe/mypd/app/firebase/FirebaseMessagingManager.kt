@@ -11,8 +11,8 @@ import org.greenrobot.eventbus.Subscribe
 import org.mpdx.android.core.UserDeviceApi
 import org.mpdx.android.core.model.UserDevice
 import org.mpdx.android.core.services.ConnectivityService
+import org.mpdx.android.library.auth.AuthenticationListener
 import org.mpdx.android.library.core.AppConstantListener
-import org.mpdx.android.library.core.AuthenticationListener
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -40,7 +40,7 @@ class FirebaseMessagingManager @Inject constructor(
     }
 
     private fun registerDevice() = launch {
-        if (authenticationListener.getSessionGuid() == null) return@launch
+        if (!authenticationListener.isAuthenticated()) return@launch
 
         try {
             FirebaseInstanceId.getInstance().instanceId.await()
